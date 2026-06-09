@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia Familiar - Linaje Lafuente</title>
     <style>
-        /* Estilos Generales Estilo Pergamino y Clásico */
+        /* Estilos Generales con Estilo Pergamino */
         body {
             font-family: 'Times New Roman', Times, serif, sans-serif;
             background-color: #f5efe6;
             color: #2c1d11;
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
         }
 
         header {
@@ -25,7 +24,7 @@
 
         header h1 {
             margin: 0;
-            font-size: 2.8em;
+            font-size: 2.5em;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -49,7 +48,7 @@
             border: 2px solid #dfd3c3;
             border-radius: 8px;
             padding: 30px;
-            margin: 20px 0 40px 0;
+            margin: 20px 0;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
@@ -64,122 +63,141 @@
         }
 
         .intro-text {
-            font-size: 1.15em;
+            font-size: 1.2em;
             line-height: 1.7;
-            max-width: 800px;
+            max-width: 850px;
             margin: 20px auto;
             text-align: justify;
+            color: #2c1d11;
         }
 
-        /* Panel de Botones / Tarjetas de Navegación */
+        /* Panel de Botones de Navegación */
         .navigation-grid {
-            display: table;
-            width: 100%;
-            border-spacing: 15px;
-            margin: 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0 10px 0;
         }
 
-        .nav-card-cell {
-            display: table-cell;
-            width: 25%;
-            vertical-align: top;
+        .nav-button {
+            flex: 1;
+            min-width: 200px;
+            background-color: #fbf8f3;
+            color: #3d2b1f;
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+            border: 2px solid #3d2b1f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .nav-card {
+        .nav-button:hover {
             background-color: #3d2b1f;
             color: #f5efe6;
-            padding: 25px 15px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            border: 2px solid #d4af37;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-color: #d4af37;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
-        .nav-card:hover {
-            background-color: #d4af37;
-            color: #3d2b1f;
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-        }
-
-        .nav-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.25em;
+        /* ESTA ERA LA CORRECCIÓN: Letras oscuras y legibles siempre */
+        .nav-button h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
             text-transform: uppercase;
+            color: inherit; /* Sigue el color del botón principal */
         }
 
-        .nav-card p {
+        .nav-button p {
             margin: 0;
-            font-size: 0.9em;
+            font-size: 0.95em;
             font-style: italic;
+            color: #5c4033; /* Marrón oscuro legible */
+        }
+        
+        .nav-button:hover p {
+            color: #dfd3c3; /* Color claro cuando pasas el ratón encima */
+        }
+
+        /* Botón Activo (El que está seleccionado) */
+        .nav-button.active {
+            background-color: #3d2b1f;
+            color: #f5efe6;
+            border-color: #d4af37;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .nav-button.active p {
             color: #dfd3c3;
         }
 
-        .nav-card:hover p {
-            color: #3d2b1f;
-        }
-
-        /* Subsecciones de Contenido */
-        .content-section {
+        /* Subsecciones ocultas por defecto ("Ventanas aparte") */
+        .content-window {
+            display: none; /* Oculto */
             background-color: #fff;
-            border: 1px solid #dfd3c3;
+            border: 2px solid #d4af37;
             border-radius: 8px;
             padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-top: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .content-section h2 {
+        /* Mostrar la sección cuando tenga la clase 'active' */
+        .content-window.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-window h2 {
             color: #3d2b1f;
             font-size: 1.8em;
             border-left: 5px solid #d4af37;
             padding-left: 15px;
             margin-top: 0;
+            margin-bottom: 20px;
         }
 
-        .back-to-top {
+        .close-btn {
             display: inline-block;
-            margin-top: 20px;
-            color: #8a6d3b;
+            margin-top: 25px;
+            background-color: #3d2b1f;
+            color: #f5efe6;
+            padding: 10px 20px;
             text-decoration: none;
+            border-radius: 4px;
             font-weight: bold;
-            font-size: 0.95em;
+            font-size: 0.9em;
+            border: none;
+            cursor: pointer;
         }
 
-        .back-to-top:hover {
-            text-decoration: underline;
+        .close-btn:hover {
+            background-color: #d4af37;
+            color: #3d2b1f;
         }
 
-        /* Listas y detalles */
         ul {
             padding-left: 20px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .highlight-box {
             background-color: #fcf8e3;
-            border-left: 4px solid #fbeed5;
+            border-left: 4px solid #d4af37;
             padding: 15px;
-            margin: 15px 0;
+            margin: 20px 0;
             font-style: italic;
-        }
-
-        /* Responsivo básico */
-        @media (max-width: 768px) {
-            .nav-card-cell {
-                display: block;
-                width: 100%;
-                margin-bottom: 15px;
-            }
-            .navigation-grid {
-                border-spacing: 0;
-            }
+            color: #5c4033;
         }
     </style>
 </head>
@@ -197,79 +215,6 @@
             <p class="intro-text">
                 Bienvenidos al archivo interactivo de la <strong>Familia Lafuente</strong>. Con raíces profundamente asentadas en el norte de España, la historia familiar documenta dos ramas troncales de gran antigüedad: una establecida en <strong>Guarnizo (Cantabria)</strong> y otra originaria de <strong>Tramacastilla de Tena, en el Valle de Tena (Huesca)</strong>, documentada formalmente desde el año 1427. A través de este portal, se recogen los expedientes, hidalguías, hojas de servicio militar e hitos académicos que testifican el legado de las generaciones pasadas.
             </p>
-            <p style="font-style: italic; color: #666;">Selecciona una sección a continuación para explorar los detalles históricos:</p>
+            <p style="font-style: italic; color: #5c4033; font-weight: bold; margin-top: 25px;">Haz clic en cualquier sección para abrir su ventana informativa:</p>
             
             <div class="navigation-grid">
-                <div class="nav-card-cell">
-                    <a href="#origenes" class="nav-card">
-                        <h3>1. El Apellido</h3>
-                        <p>Casal de Tramacastilla y heráldica del escudo familiar.</p>
-                    </a>
-                </div>
-                <div class="nav-card-cell">
-                    <a href="#sigloxvii" class="nav-card">
-                        <h3>2. Siglo XVII</h3>
-                        <p>Expedientes de infanzonía y el linaje fundacional.</p>
-                    </a>
-                </div>
-                <div class="nav-card-cell">
-                    <a href="#contemporanea" class="nav-card">
-                        <h3>3. Era Moderna</h3>
-                        <p>Hojas de servicio militar, Marina y la rama de Valencia.</p>
-                    </a>
-                </div>
-                <div class="nav-card-cell">
-                    <a href="#alianzas" class="nav-card">
-                        <h3>4. Alianzas</h3>
-                        <p>Unión con los linajes Aznar, Reig, Pérez y Aurioles.</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="origenes" class="content-section">
-            <h2>1. Fundamentos e Iconografía del Apellido</h2>
-            <p>El apellido Lafuente posee un arraigo histórico notable en el Valle de Tena. Las armas familiares se describen tradicionalmente en azur, exhibiendo una fuente de dos cuerpos con un surtidor de plata en lo alto. En las fachadas de su casa solariega (casal) en Tramacastilla, el escudo figura acolado con el del linaje Laguna, destacando una piedra labrada donde la iconografía marítima original de los Laguna se sintetiza de forma abstracta en una bandera y un triángulo.</p>
-            <div class="highlight-box">
-                "Armas de azur, una fuente de dos cuerpos con surtidor en lo alto de plata. Por orla, con letra de plata: 'Lafuente de Tramacastilla'."
-            </div>
-            <a href="#" class="back-to-top">↑ Volver al menú principal</a>
-        </section>
-
-        <section id="sigloxvii" class="content-section">
-            <h2>2. Rama Histórica y Firmas de Infanzonía (Siglos XVII - XVIII)</h2>
-            <p>Durante los siglos XV al XVIII, los Lafuente consolidaron su estatus legal de infanzones mediante rigurosas pruebas de nobleza y limpieza de sangre. Entre los hitos documentales más relevantes se encuentran:</p>
-            <ul>
-                <li><strong>Firma de Infanzonía (1769):</strong> Concedida a los hijos del matrimonio entre Juan Apolinario Laguna y Francisca Pascuala Ferrer Lafuente.</li>
-                <li><strong>Infanzonía de Felipe María Laguna y Ferrer:</strong> Documento histórico donde consta el escudo exento de orla, validando la hidalguía familiar ante la Real Audiencia de Aragón.</li>
-                <li><strong>Vínculos eclesiásticos y jurídicos:</strong> Miembros que desempeñaron funciones clave en el norte de la península asegurando las propiedades y el casal familiar.</li>
-            </ul>
-            <a href="#" class="back-to-top">↑ Volver al menú principal</a>
-        </section>
-
-        <section id="contemporanea" class="content-section">
-            <h2>3. Rama Contemporánea: Servicio Militar y Marítimo</h2>
-            <p>Con el paso de los siglos, miembros destacados del linaje se trasladaron hacia el este y sur de España, con especial mención a la delegación de <strong>Valencia</strong>. En esta época, la familia aportó notables servidores a las Reales Fuerzas Navales y al Ejército.</p>
-            <ul>
-                <li><strong>Hojas de Servicio en la Armada:</strong> Expedientes detallados sobre navegaciones, batallas e instrucción marítima defensiva.</li>
-                <li><strong>Registros de la Real Academia:</strong> Expedientes que reflejan la formación intelectual y militar de los jóvenes Lafuente destinados al cuerpo de oficiales.</li>
-                <li><strong>Rigor Arqueológico:</strong> Las transcripciones preservan los rangos, condecoraciones y traslados portuarios del siglo XIX.</li>
-            </ul>
-            <a href="#" class="back-to-top">↑ Volver al menú principal</a>
-        </section>
-
-        <section id="alianzas" class="content-section">
-            <h2>4. Familias Aliadas y Conexiones Ilustres</h2>
-            <p>La genealogía de los Lafuente se enriquece gracias a matrimonios estratégicos con otras familias nobles de la geografía española, conectando el árbol con apellidos de renombre legal, político y militar:</p>
-            <ul>
-                <li><strong>Linajes Aznar, Reig y Pérez:</strong> Alianzas clave en la zona de Levante que expandieron el patrimonio y los títulos de la rama familiar.</li>
-                <li><strong>Conexión Aguado - Oquendo:</strong> Matrimonio en Granada (1799) entre Maria de la Presentación Aguado y José Aurioles de la Torre (nacido en Ronda, Málaga), quien probó su nobleza en 1776.</li>
-                <li><strong>D. José Ciudad y Aurioles (1489 - 1924):</strong> Bisnieto de la alianza Aurioles-Aguado. Eminente jurista que llegó a ser <strong>Presidente del Tribunal Supremo de España</strong> entre 1917 y 1924, Caballero de la Orden de Santiago y Senador del Reino.</li>
-            </ul>
-            <a href="#" class="back-to-top">↑ Volver al menú principal</a>
-        </section>
-
-    </div>
-
-</body>
-</html>
