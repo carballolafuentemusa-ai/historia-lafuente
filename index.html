@@ -3,218 +3,797 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historia Familiar - Linaje Lafuente</title>
+    <title>Crónica e Interactivo de la Familia Lafuente</title>
     <style>
-        /* Estilos Generales con Estilo Pergamino */
-        body {
-            font-family: 'Times New Roman', Times, serif, sans-serif;
-            background-color: #f5efe6;
-            color: #2c1d11;
+        :root {
+            --primary: #122333;
+            --secondary: #1c354e;
+            --accent: #b0893e;
+            --bg: #f5f2eb;
+            --card-bg: #ffffff;
+            --text: #2c3539;
+            --text-muted: #53626a;
+            --border: #d1c7bd;
+            --shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
         }
 
         header {
-            background-color: #3d2b1f;
-            color: #f5efe6;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 2rem;
             text-align: center;
-            padding: 40px 20px;
-            border-bottom: 5px solid #d4af37;
+            border-bottom: 5px solid var(--accent);
+            box-shadow: var(--shadow);
         }
 
         header h1 {
-            margin: 0;
-            font-size: 2.5em;
+            font-size: 2.4rem;
             letter-spacing: 2px;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
+            font-weight: normal;
         }
 
         header p {
-            margin: 10px 0 0 0;
+            color: var(--accent);
             font-style: italic;
-            font-size: 1.2em;
-            color: #dfd3c3;
+            font-size: 1.1rem;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 1400px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
         }
 
-        /* Sección Introductoria Portada */
-        .intro-section {
-            background-color: #fbf8f3;
-            border: 2px solid #dfd3c3;
-            border-radius: 8px;
-            padding: 30px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .intro-section h2 {
-            font-size: 2em;
-            color: #3d2b1f;
-            margin-top: 0;
-            border-bottom: 2px solid #d4af37;
-            padding-bottom: 10px;
-            display: inline-block;
+        .stat-card {
+            background: var(--card-bg);
+            border-top: 4px solid var(--accent);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
         }
 
-        .intro-text {
-            font-size: 1.2em;
-            line-height: 1.7;
-            max-width: 850px;
-            margin: 20px auto;
-            text-align: justify;
-            color: #2c1d11;
-        }
-
-        /* Panel de Botones de Navegación */
-        .navigation-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0 10px 0;
-        }
-
-        .nav-button {
-            flex: 1;
-            min-width: 200px;
-            background-color: #fbf8f3;
-            color: #3d2b1f;
-            padding: 20px;
-            text-align: center;
-            border-radius: 6px;
-            border: 2px solid #3d2b1f;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .nav-button:hover {
-            background-color: #3d2b1f;
-            color: #f5efe6;
-            border-color: #d4af37;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-
-        /* ESTA ERA LA CORRECCIÓN: Letras oscuras y legibles siempre */
-        .nav-button h3 {
-            margin: 0 0 8px 0;
-            font-size: 1.2em;
+        .stat-card h3 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
-            color: inherit; /* Sigue el color del botón principal */
+            letter-spacing: 1px;
         }
 
-        .nav-button p {
-            margin: 0;
-            font-size: 0.95em;
-            font-style: italic;
-            color: #5c4033; /* Marrón oscuro legible */
+        .stat-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--primary);
+            border-radius: 4px 4px 0 0;
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            white-space: nowrap;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .tab-btn:hover {
+            color: white;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: var(--accent);
+        }
+
+        .tab-content {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 0 0 4px 4px;
+            box-shadow: var(--shadow);
+            display: none;
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* LIENZO DE PERGAMINO CON DIBUJO COMPLETO DE ROBLE SEÑORIAL A LÁPIZ (B&N) */
+        .tree-container-vintage {
+            width: 100%;
+            padding: 3rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background-color: #fcf9f2;
+            background-image: radial-gradient(ellipse at center, rgba(252,249,242,0) 0%, rgba(236,227,208,0.7) 100%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 900' width='100%25' height='100%25'%3E%3Cg stroke='%23423c32' stroke-width='1.2' fill='none' opacity='0.38' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Base de Raíces Silvestres --%3E%3Cpath d='M420,900 C460,860 520,870 540,840 C550,810 510,790 530,760 M780,900 C740,860 680,870 660,840 C650,810 690,790 670,760 M480,900 C510,870 530,850 550,830 M720,900 C690,870 670,850 650,830 M600,900 L600,840' /%3E%3C!-- Tronco Centrado Macizo con Textura de Corteza --%3E%3Cpath d='M530,840 C525,720 500,640 480,520 C460,400 400,340 360,240 C320,140 440,60 420,0' /%3E%3Cpath d='M670,840 C675,720 700,640 720,520 C740,400 800,340 840,240 C880,140 760,60 780,0' /%3E%3Cpath d='M550,830 L545,640 M580,840 L575,610 M620,840 L615,620 M650,830 L645,650 M495,510 L480,420 M520,520 L510,430 M680,510 L695,420 M710,500 L715,440' stroke-width='0.8' opacity='0.7'/%3E%3C!-- Ramas Principales del Lado Izquierdo --%3E%3Cpath d='M480,520 C360,480 240,510 60,360' /%3E%3Cpath d='M465,370 C340,310 270,330 110,200' /%3E%3Cpath d='M400,240 C310,190 250,210 90,110' /%3E%3C!-- Ramas Principales del Lado Derecho --%3E%3Cpath d='M720,520 C840,480 960,510 1140,360' /%3E%3Cpath d='M735,370 C860,310 930,330 1090,200' /%3E%3Cpath d='M800,240 C890,190 950,210 1110,110' /%3E%3C!-- Copas y Follaje Detallado con Garabatos de Hojas --%3E%3Cpath d='M60,360 C30,340 10,360 -10,320 C0,290 30,280 60,300 M110,200 C80,170 50,190 30,140 C60,120 90,140 110,160 M90,110 C60,80 40,100 20,50 C50,40 70,60 90,80' /%3E%3Cpath d='M1140,360 C1170,340 1190,360 1210,320 C1200,290 1170,280 1140,300 M1090,200 C1120,170 1150,190 1170,140 C1140,120 1110,140 1090,160 M1110,110 C1140,80 1160,100 1180,50 C1150,40 1130,60 1110,80' /%3E%3Cpath d='M420,50 C390,20 410,-10 380,-30 C410,-40 430,-20 450,0 M780,50 C810,20 790,-10 820,-30 C790,-40 770,-20 750,0' /%3E%3C!-- Líneas de Sombreado Cruzado Lapicero --%3E%3Cpath d='M450,460 L420,480 M445,450 L415,470 M750,460 L780,480 M745,450 L775,470' stroke-width='0.6'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        /* DISEÑO DE ALINEACIÓN SIMÉTRICA POR FILAS Y COLUMNAS FIJAS */
+        .vintage-tree {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .vintage-tree ul {
+            padding-top: 30px; 
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .vintage-tree li {
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 30px 10px 0 10px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .vintage-tree li::before, .vintage-tree li::after {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            right: 50%;
+            border-top: 2px solid #7c6d5e;
+            width: 50%; 
+            height: 30px;
         }
         
-        .nav-button:hover p {
-            color: #dfd3c3; /* Color claro cuando pasas el ratón encima */
+        .vintage-tree li::after {
+            right: auto; 
+            left: 50%;
+            border-left: 2px solid #7c6d5e;
         }
 
-        /* Botón Activo (El que está seleccionado) */
-        .nav-button.active {
-            background-color: #3d2b1f;
-            color: #f5efe6;
-            border-color: #d4af37;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        .vintage-tree li:only-child::after, .vintage-tree li:only-child::before {
+            display: none;
         }
-        .nav-button.active p {
-            color: #dfd3c3;
+        
+        .vintage-tree li:only-child { 
+            padding-top: 0;
         }
-
-        /* Subsecciones ocultas por defecto ("Ventanas aparte") */
-        .content-window {
-            display: none; /* Oculto */
-            background-color: #fff;
-            border: 2px solid #d4af37;
-            border-radius: 8px;
-            padding: 35px;
-            margin-top: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        
+        .vintage-tree li:first-child::before, .vintage-tree li:last-child::after {
+            border: 0 none;
         }
-
-        /* Mostrar la sección cuando tenga la clase 'active' */
-        .content-window.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
+        
+        .vintage-tree li:last-child::after {
+            border-left: 2px solid #7c6d5e;
+            border-radius: 4px 0 0 0;
+        }
+        
+        .vintage-tree li:first-child::before {
+            border-right: 2px solid #7c6d5e;
+            border-radius: 0 4px 0 0;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .vintage-tree ul ul::before {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            left: 50%;
+            border-left: 2px solid #7c6d5e;
+            width: 0; 
+            height: 30px;
         }
 
-        .content-window h2 {
-            color: #3d2b1f;
-            font-size: 1.8em;
-            border-left: 5px solid #d4af37;
-            padding-left: 15px;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        .close-btn {
-            display: inline-block;
-            margin-top: 25px;
-            background-color: #3d2b1f;
-            color: #f5efe6;
-            padding: 10px 20px;
-            text-decoration: none;
+        /* CAJAS CON ANCHO HOMOGÉNEO Y TEXTO SIN RECORTES */
+        .person-card {
+            background: #ffffff;
+            border: 1px solid #5a4d41;
             border-radius: 4px;
+            padding: 10px 12px;
+            color: var(--text);
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(90,77,65,0.12);
+            width: 230px;
+            text-align: left;
+            position: relative;
+            background-image: linear-gradient(to bottom, #ffffff 0%, #fffefb 100%);
+        }
+
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: 1px; left: 1px; right: 1px; bottom: 1px;
+            border: 1px solid #eae1d4;
+            pointer-events: none;
+        }
+
+        .person-name {
+            font-size: 0.82rem;
             font-weight: bold;
-            font-size: 0.9em;
-            border: none;
+            color: #3e3127;
+            border-bottom: 1px solid #b0893e;
+            padding-bottom: 3px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            word-wrap: break-word;
+        }
+
+        .person-dates {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #8c2d19;
+            margin-bottom: 5px;
+            font-family: sans-serif;
+        }
+
+        .person-meta {
+            font-size: 0.75rem;
+            color: #333;
+            margin-bottom: 2px;
+            word-wrap: break-word;
+        }
+
+        /* ACORDEONES DESPLEGABLES */
+        .accordion-item {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+        }
+
+        .accordion-header {
+            background-color: #fcfcfb;
+            padding: 1rem 1.2rem;
             cursor: pointer;
+            font-weight: bold;
+            color: var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            font-size: 1.05rem;
+            border-bottom: 1px solid transparent;
         }
 
-        .close-btn:hover {
-            background-color: #d4af37;
-            color: #3d2b1f;
+        .accordion-header:hover {
+            background-color: #f4ede2;
         }
 
-        ul {
-            padding-left: 20px;
-            line-height: 1.7;
+        .accordion-content {
+            padding: 1.5rem;
+            display: none;
+            background-color: white;
         }
 
-        li {
-            margin-bottom: 12px;
+        .tree-node {
+            padding-left: 1.5rem;
+            border-left: 2px dashed var(--accent);
+            margin: 1.2rem 0;
+            position: relative;
+        }
+
+        .tree-node::before {
+            content: "•";
+            position: absolute;
+            left: -5px;
+            top: 0;
+            color: var(--accent);
+            font-size: 1.1rem;
+            background: white;
+            line-height: 1;
+        }
+
+        .info-badge, .noble-badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .noble-badge {
+            background-color: #4a2c6d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: normal;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #fcfcfb;
         }
 
         .highlight-box {
-            background-color: #fcf8e3;
-            border-left: 4px solid #d4af37;
-            padding: 15px;
-            margin: 20px 0;
+            background-color: #fffbf5;
+            border: 1px solid #f2e6cf;
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-radius: 4px;
             font-style: italic;
-            color: #5c4033;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.4rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            font-size: 1.35rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.2rem;
+            margin-bottom: 0.4rem;
+            font-weight: normal;
+        }
+
+        ul, ol {
+            margin-left: 1.8rem;
+            margin-top: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            background-color: #eae5da;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Memorial Histórico de la Familia Lafuente</h1>
-        <p>Arqueología Genealógica y Archivo Documental</p>
+        <h1>Familia Lafuente</h1>
+        <p>Crónica Histórica, Nobiliaria e Institucional • Recopilado por Elena Lafuente</p>
     </header>
 
     <div class="container">
+        
+        <div class="overview-grid">
+            <div class="stat-card">
+                <h3>Áreas Geográficas Clave</h3>
+                <p>Anclada originalmente en el <strong>Valle de Tena (Huesca)</strong>, la familia irradió progresivamente hacia <strong>Albarracín (Teruel)</strong>, <strong>Granada</strong>, <strong>Valencia</strong> y tierras andaluzas siguiendo carreras de judicatura y armas.</p>
+            </div>
+            <div class="stat-card">
+                <h3>Estatus Socio-Político</h3>
+                <p>Firme trayectoria documentada de <strong>Infanzonía de sangre e Hidalguía</strong> con ejecutorias civiles y eclesiásticas (Órdenes de Santiago, Alcántara y probanzas en la Chancillería).</p>
+            </div>
+            <div class="stat-card">
+                <h3>Ejes Vocacionales</h3>
+                <p>Predominio de dos grandes campos a lo largo de los siglos: el <strong>Poder Judicial de la Corona</strong> (Oidores, Ministros, Corregidores) y la <strong>Oficialidad de los Reales Ejércitos y Marina Mercante</strong>.</p>
+            </div>
+        </div>
 
-        <section class="intro-section">
-            <h2>Orígenes del Linaje</h2>
-            <p class="intro-text">
-                Bienvenidos al archivo interactivo de la <strong>Familia Lafuente</strong>. Con raíces profundamente asentadas en el norte de España, la historia familiar documenta dos ramas troncales de gran antigüedad: una establecida en <strong>Guarnizo (Cantabria)</strong> y otra originaria de <strong>Tramacastilla de Tena, en el Valle de Tena (Huesca)</strong>, documentada formalmente desde el año 1427. A través de este portal, se recogen los expedientes, hidalguías, hojas de servicio militar e hitos académicos que testifican el legado de las generaciones pasadas.
-            </p>
-            <p style="font-style: italic; color: #5c4033; font-weight: bold; margin-top: 25px;">Haz clic en cualquier sección para abrir su ventana informativa:</p>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'arbol-clasico')">🌳 Árbol Genealógico Clásico</button>
+            <button class="tab-btn" onclick="openTab(event, 'origenes')">1. Orígenes y Fondos</button>
+            <button class="tab-btn" onclick="openTab(event, 'tronco')">2. Crónica Troncal (S. XVII-XVIII)</button>
+            <button class="tab-btn" onclick="openTab(event, 'maravillas')">3. Línea de Valencia y Marina</button>
+            <button class="tab-btn" onclick="openTab(event, 'alianzas')">4. Alianzas Detalladas</button>
+        </div>
+
+        <div id="arbol-clasico" class="tab-content active">
+            <h2>Árbol de Linaje Descendiente</h2>
+            <p style="margin-bottom: 1.5rem; font-style: italic;">Lienzo nobiliario con ilustración completa de un roble antiguo a lápiz. Todas las cajas mantienen una perfecta alineación simétrica a la izquierda.</p>
             
-            <div class="navigation-grid">
+            <div class="tree-container-vintage">
+                <div class="vintage-tree">
+                    <ul>
+                        <li>
+                            <div class="person-card">
+                                <div class="person-name">Miguel Lafuente</div>
+                                <div class="person-dates">(N. ~1625, D. xx)</div>
+                                <div class="person-meta"><b>L.</b> Tramacastilla de Tena</div>
+                                <div class="person-meta"><b>C.</b> María de Lópe</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="person-card">
+                                        <div class="person-name">Cap. Juan Jusepe Lafuente</div>
+                                        <div class="person-dates">(N. ~1660, D. ~1730)</div>
+                                        <div class="person-meta"><b>L.</b> Albarracín (Teruel)</div>
+                                        <div class="person-meta"><b>C.</b> María Paula Olaya</div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="person-card">
+                                                <div class="person-name">Domingo Ignacio Lafuente</div>
+                                                <div class="person-dates">(N. ~1690, D. 1774)</div>
+                                                <div class="person-meta"><b>L.</b> Albarracín (Teruel)</div>
+                                                <div class="person-meta"><b>C.</b> Teresa Lorente</div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="person-card">
+                                                        <div class="person-name">Domingo Lafuente Lorente</div>
+                                                        <div class="person-dates">(N. 1728, D. 1798)</div>
+                                                        <div class="person-meta"><b>L.</b> Albarracín / Granada</div>
+                                                        <div class="person-meta"><b>C.</b> Joaquina Oquendo y Gil</div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="person-card">
+                                                                <div class="person-name">Mariano Lafuente Oquendo</div>
+                                                                <div class="person-dates">(N. 1774, D. 1840)</div>
+                                                                <div class="person-meta"><b>L.</b> Granada</div>
+                                                                <div class="person-meta"><b>C.</b> Mª Josefa Ruiz Lafuente</div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="person-card">
+                                                                <div class="person-name">Joaquín Lafuente Oquendo</div>
+                                                                <div class="person-dates">(N. 1780, D. 1808)</div>
+                                                                <div class="person-meta"><b>L.</b> Granada</div>
+                                                                <div class="person-meta"><b>C.</b> Inés Hinojosa y Mejía</div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="person-card">
+                                                                <div class="person-name">Cor. Antonio Lafuente Oquendo</div>
+                                                                <div class="person-dates">(N. 1785, D. 1869)</div>
+                                                                <div class="person-meta"><b>L.</b> Granada / Valencia</div>
+                                                                <div class="person-meta"><b>C.</b> Mª Josefa Reig y Martí</div>
+                                                            </div>
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="person-card">
+                                                                        <div class="person-name">Antonio Lafuente Reig</div>
+                                                                        <div class="person-dates">(N. 1826, D. 1881)</div>
+                                                                        <div class="person-meta"><b>L.</b> Granada / Valencia</div>
+                                                                        <div class="person-meta"><b>C.</b> Lutgarda Pérez Reig</div>
+                                                                    </div>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="person-card">
+                                                                                <div class="person-name">Leopoldo Lafuente Pérez</div>
+                                                                                <div class="person-dates">(N. 1864, D. 1934)</div>
+                                                                                <div class="person-meta"><b>L.</b> Valencia</div>
+                                                                                <div class="person-meta"><b>C.</b> Elena Aznar Álvarez</div>
+                                                                            </div>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <div class="person-card">
+                                                                                        <div class="person-name">Félix Lafuente Aznar</div>
+                                                                                        <div class="person-dates">(N. 1900, D. 1981)</div>
+                                                                                        <div class="person-meta"><b>L.</b> Valencia</div>
+                                                                                        <div class="person-meta"><b>C.</b> Francisca Gutiérrez Pla</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="person-card" style="border-color:#c94a4a;">
+                                                                                        <div class="person-name">José Lafuente Aznar</div>
+                                                                                        <div class="person-dates">(N. 1912, D. ~1937)</div>
+                                                                                        <div class="person-meta"><b>L.</b> Valencia / Teruel</div>
+                                                                                        <div class="person-meta"><b>C.</b> Soltero</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="origenes" class="tab-content">
+            <h2>Orígenes Primitivos y Armería Solariega</h2>
+            <p style="margin-bottom: 2rem;">Despliega las secciones para conocer los fondos de archivo y la simbología primitiva de los solares familiares pirenaicos.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Doble Radicación Geográfica y Antigüedad (Siglo XV)</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Las investigaciones documentales revelan la coexistencia de dos ramas geográficas de origen diferenciado para el apellido [cite: 5]: una sita en Guarnizo (Cantabria) y otra en <strong>Tramacastilla de Tena, Valle del Tena (Huesca)</strong>, de la cual procede de forma directa la línea familiar investigada[cite: 5].</p>
+                    <p style="margin-top: 1rem;">Dentro del Valle de Tena, el apellido se erige como uno de los linajes más antiguos y bastante generales[cite: 6]. Su primera mención formal en registros notariales data del año <strong>1427 en Tramacastilla de Tena</strong>[cite: 6]. Durante la totalidad de los siglos XIV y XV, los censos y protocolos locales revelan que el apellido gozaba de una altísima frecuencia de aparición en la comarca pirenaica[cite: 6].</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>El Casal Patrimonial y el Escudo Acolado de Alianza</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>La familia poseía un casal o casa solariega fortificada, además de tierras de labor y labranza en el término de Tramacastilla[cite: 7, 10]. En dicha vivienda se conserva una de las herencias arquitectónicas heráldicas más singulares de la zona[cite: 7].</p>
+                    <p style="margin-top: 0.5rem;">Se trata de una piedra grabada casi abstracta con un escudo familiar acolado, es decir, unido[cite: 7]. Representa la alianza entre la casa de los de Laguna y los Lafuente, fruto del enlace matrimonial de Juan Apolinario Laguna y del Cacho (quien mudó su residencia desde el pueblo de Pueyo a Tramacastilla) con Francisca Pascuala Ferrer Lafuente (natural de Escarrilla)[cite: 7]. En este relieve labrado, el barco propio de la heráldica tradicional de los Laguna aparece sintetizado y reducido a la figura de un triángulo rematado por una bandera[cite: 7]. Los vástagos directos de esta unión legitimaron formalmente su estatus de nobleza, logrando ganar su correspondiente <strong>Firma de Infanzonía en el año 1769</strong>[cite: 8].</p>
+                    
+                    <div class="highlight-box">
+                        <strong>Blasón Oficial de los Lafuente de Tramacastilla:</strong> Traen por armas un escudo en campo de azur, cargado con una fuente de dos cuerpos provista de surtidor en lo alto, todo labrado en metal plata[cite: 10]. Lleva por orla una filacteria de plata que muestra la leyenda en letras de sable: "Lafuente de Tramacastilla"[cite: 11]. Esta exacta armería, desprovista de su orla exterior de letras, consta registrada textualmente en el expediente de la Infanzonía ganada por don Felipe María Laguna y Ferrer[cite: 12].
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Validación Bibliográfica y Registros Parroquiales</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>La consistencia y autenticidad del linaje pirenaico se halla refrendada en los siguientes repertorios documentales:</p>
+                    <ul>
+                        <li><strong>Año 1436:</strong> Consta el registro formal de <strong>Domingo Lafuente</strong> en calidad de vecino capitular y propietario de la localidad de <em>Entramacastiella</em>, localizado en el Fondo Gómez de Valenzuela del Archivo Histórico Provincial de Huesca (citado con el número 6, página 49)[cite: 13].</li>
+                        <li><strong>Estudios Heráldicos:</strong> El linaje y sus armas se encuentran pormenorizados en la página 163 del tratado especializado <em>"Armorial del Valle de Tena"</em>, publicado por el historiador y paleógrafo Andrés Gómez de Valenzuela[cite: 14].</li>
+                        <li><strong>Pleitos de Hidalguía:</strong> Copias fehacientes extraídas de los legajos de probanzas nobiliarias resguardados en el Archivo de la Real Chancillería de Granada y en la Sección de Órdenes Militares del Archivo Histórico Nacional[cite: 18, 19].</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="tronco" class="tab-content">
+            <h2>Crónica Sucesoria del Tronco Común (S. XVII - XVIII)</h2>
+            <p style="margin-bottom: 2rem;">A continuación se detalla la línea de varonía de la familia y los altos oficios regios desempeñados en las delegaciones hacendísticas y judiciales del Reino.</p>
+
+            <div class="tree-node">
+                <span class="noble-badge">Generación I - El Priorato de Santiago</span> <strong>MIGUEL LAFUENTE</strong>
+                <p>Establecido formalmente como el primer ascendiente conocido y vecino patrimonial de Tramacastilla de Tena (Huesca)[cite: 15, 16]. En el año <strong>1656</strong>, tras superar los rigurosos exámenes de legitimidad, limpieza de sangre, vida y costumbres, ingresa en la prestigiosa <strong>Orden Militar y Religiosa de Santiago</strong>, institución de caballería en la que escaló dignidades eclesiásticas y gubernativas hasta ser consagrado como <strong>Prior de la Orden</strong>[cite: 17, 18]. Su hermano carnal, Juan Silvestre Lafuente, ingresó de igual modo a la milicia santiaguista en la misma fecha (1656) y ejerció idéntica dignidad de Prior en la demarcación[cite: 18]. Ambos hermanos constan calificados legalmente como de origen noble e Infanzones de sangre de solar conocido, dueños de importantes haciendas y bienes ganaderos en la zona, según se evidencia en las ejecutorias del Archivo de la Real Chancillería de Granada[cite: 18, 19]. Contrajo nupcias con <strong>María de Lópe</strong> [cite: 20], naciendo de este enlace Juan Jusepe[cite: 21].</p>
+
+                <div class="tree-node">
+                    <span class="info-badge">Generación II - El Capitán de Albarracín</span> <strong>JUAN JUSEPE LAFUENTE DE LOPE</strong>
+                    <p>Hijo legítimo de Miguel y María[cite: 21]. Acreditado en los protocolos notariales aragoneses con la distinción jurídica de noble e Hijodalgo de la zona[cite: 22]. Abrazó la carrera de las armas al servicio de la Corona, alcanzando el empleo oficial de <strong>Capitán de los Reales Ejércitos</strong>, rango con el que figura calificado en su partida de defunción[cite: 24]. Por estrictas razones de servicio y asignación de guarnición militar, trasladó el eje de la familia del Pirineo oscense a la provincia de Teruel, asentándose de manera estable entre los años <strong>1690 y 1730</strong> aproximadamente en la ciudad de <strong>Albarracín</strong>[cite: 23]. Contrajo matrimonio con <strong>María Paula Olaya</strong>, noble e hijaodalgo[cite: 22].</p>
+
+                    <div class="tree-node">
+                        <span class="info-badge">Generación III - El Juez Jurado de Teruel</span> <strong>DOMINGO IGNACIO LAFUENTE OLAYA</strong>
+                        <p>Nacido en la ciudad de Albarracín, donde radicó y falleció en el año <strong>1774</strong>[cite: 26]. Con fecha del 6 de agosto de 1735, interpuso un pedimento formal y pleito de petición para el <strong>Reconocimiento de su Infanzonía e Hidalguía de Sangre</strong> ante los tribunales reales, obteniendo sentencia favorable[cite: 27, 28]. En el año 1742 fue investido con el cargo de <strong>Jurado Segundo</strong> de la corporación municipal de Albarracín, ejerciendo la jurisdicción civil local de origen noble[cite: 28]. Contrajo matrimonio eclesiástico con <strong>Teresa Lorente</strong>, natural de Albarracín[cite: 28]. Tuvieron dos hijos varones conocidos:</p>
+                        <ul>
+                            <li><strong>Bernardo Lafuente Lorente:</strong> Casado con Joaquina Niñerola[cite: 29, 31]. Fueron padres de Tadeo Lafuente Niñerola, eminente jurista que ejerció como Alcalde Mayor de Gérgal (Almería) y fue un rico hacendado en Otura (Granada)[cite: 31].</li>
+                            <li><strong>Domingo Lafuente Lorente:</strong> Que hereda el vínculo troncal y expande el linaje hacia Andalucía[cite: 29, 32].</li>
+                        </ul>
+
+                        <div class="tree-node" style="border-left-color: #3182ce;">
+                            <span class="info-badge">Generación IV - El Tesorero Real de Granada</span> <strong>DOMINGO LAFUENTE LORENTE (1728 - 1798)</strong>
+                            <p>Nacido en Albarracín en 1728[cite: 32]. Tras revalidar su hidalguía heredada en 1735 en la misma ciudad[cite: 42], ingresó en la administración civil de la Real Hacienda. En 1754 se le documenta en Medina de Rioseco (Valladolid) por motivos de comisión hacendística y nacimiento de su primogénita [cite: 43], y para 1774 se asienta definitivamente en Andalucía [cite: 43] al ser nombrado <strong>Tesorero de Rentas Provinciales del Reino de Granada</strong>[cite: 44, 57]. Falleció el 21 de mayo de 1798 a los 70 años de edad [cite: 32], habiendo otorgado su testamento el 16 de mayo ante el escribano del rey Don Francisco de Paula Díaz[cite: 32]. Sus solemnes funerales se oficiaron el 22 de mayo en la Iglesia de San Matías de Granada[cite: 33].</p>
+                            <p style="margin-top: 0.5rem;">Casó en la parroquia de Santa María de Albarracín con <strong>Joaquina Oquendo y Gil</strong> (nacida en 1733), natural de la misma ciudad[cite: 34]. Joaquina era hija de Juan de Oquendo y Ballesteros (natural de Monteverde de Albarracín) y de Antonia Gil y Alonso (natural de Bronchales)[cite: 35, 185]. Su hermano fue el célebre Teniente General <strong>Juan Joaquín Oquendo y Gil</strong> (1749-1802), Capitán General de Mallorca, héroe del bloqueo de Gibraltar, caballero de Santiago y comendador de la Orden de Alcántara, famoso por coordinar la expulsión de los Jesuitas de Castilla la Nueva junto al Conde de Aranda en 1767[cite: 35, 36, 38, 40]. A la muerte de Domingo, su viuda Joaquina tramitó ante el Ministerio de Hacienda en Madrid una pensión anual de 50 escudos sobre un sueldo regulador de 240 escudos [cite: 44, 53, 75], fijando su residencia definitiva en Granada[cite: 57].</p>
+                            
+                            <h4 style="margin-top: 0.8rem; color: var(--secondary);">Descendencia Completa del Matrimonio Lafuente-Oquendo:</h4>
+                            <p>El matrimonio procreó un total de 8 hijos documentados en los archivos parroquiales[cite: 80]:</p>
+                            <ol>
+                                <li><strong>María Lafuente Oquendo (1754):</strong> Nacida en Medina de Rioseco, Valladolid[cite: 81]. Casó con el noble Manuel Murga Marroquín, procreando a Gregorio Murga[cite: 361].</li>
+                                <li><strong>María Teresa Lafuente Oquendo (1762 - 1846):</strong> Nacida en Albarracín, Teruel[cite: 82]. Casó en 1782 con Onésimo Ruiz Martínez (Alcalde Mayor de Tarancón) [cite: 89, 106] y en 1786 con Rafael Santisteban Morales y Chinchilla[cite: 98]. Falleció en Granada a los 84 años en la calle del Horno, habiendo testado en 1840[cite: 88, 103]. Su hija María Josefa Ruiz Lafuente casaría con su propio tío Mariano[cite: 92].</li>
+                                <li><strong>Mariano Lafuente Oquendo (1774 - 1840):</strong> Nacido en Granada, mellizo de Joaquina[cite: 82, 83]. Eminente Oidor y Ministro de la Real Audiencia (ver detalles en pestaña 3)[cite: 104, 164].</li>
+                                <li><strong>Joaquina Lafuente Oquendo (1774):</strong> Melliza de Mariano[cite: 82, 83]. Casó en el Sagrario de Granada el 14 de octubre de 1799 con su primo hermano Manuel Aguado Oquendo [cite: 854, 855], marchando a Guadalajara, México[cite: 856].</li>
+                                <li><strong>Pedro Lafuente Oquendo (1776):</strong> Nacido en Granada el 5 de febrero, bautizado en la parroquia de San Matías[cite: 84].</li>
+                                <li><strong>Joaquín Lafuente Oquendo (1780 - 1808):</strong> Oidor de la Real Chancillería de Granada y Alcalde del Crimen[cite: 177, 178]. Casó en 1800 con Inés Hinojosa y Mejía (hija del Consejero de Castilla, Blas de Hinojosa)[cite: 179]. Falleció en ejercicio en noviembre de 1808[cite: 180].</li>
+                                <li><strong>Pedro Pablo Antonio Domingo Lafuente Oquendo (1782):</strong> Nacido en Granada el 3 de julio, bautizado en San Matías[cite: 85, 172]. Se presume muerte prematura[cite: 174].</li>
+                                <li><strong>Antonio Lafuente Oquendo (1785 - 1869):</strong> Coronel de Infantería e iniciador de la rama de Valencia (ver detalles en pestaña 3)[cite: 86, 181].</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="maravillas" class="tab-content">
+            <h2>La Línea de Valencia y la Epopeya Marítima</h2>
+            <p style="margin-bottom: 2rem;">Estudio detallado de los expedientes militares contra Napoleón, las judicaturas carlistas y los capitanes de buques transatlánticos.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Coronel Antonio Lafuente Oquendo (1785 - 1869) - De Bailén al Sitio de Gerona</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Nacido en Granada en 1785, cursó leyes en la Universidad de Granada logrando calificaciones de sobresaliente y recibiendo el grado de Bachiller en Derecho Civil en 1804[cite: 181, 198, 199]. El 15 de mayo de 1808, ante el estallido de la Guerra de la Independencia, abandona las leyes e ingresa como Cadete en el <strong>Regimiento Provincial de Granada y de Baza</strong>[cite: 200, 203].</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Campañas y Cautiverio Heroico:</strong> Participó en los primeros combates contra los ejércitos franceses los días 1, 2 y 3 de julio de 1808 en Jaén[cite: 218]. El 19 de julio combatió como Subteniente en la <strong>gloriosa Batalla de Bailén</strong> a las órdenes directas del General Reding[cite: 220]. Desplazado a Cataluña, luchó en Hospitalet, San Andrés del Palomar, San Martín, Castellón de Ampurias, Castelbisbal, Tarrasa, Casa-Borda y Bañolas[cite: 221, 222, 223]. El 1 de septiembre de 1809 entró custodiando un convoy de auxilio a la plaza de <strong>Gerona</strong>, sumándose a su guarnición[cite: 224]. Sufrió todos los asaltos franceses hasta la capitulación del 10 de diciembre, donde fue hecho prisionero de guerra y conducido a Francia[cite: 224]. Permaneció cautivo cinco años; durante su encierro asistió a la academia de matemáticas y fortificación[cite: 225]. Fue condecorado con las Cruces de Bailén, Balls y Gerona, declarándosele <strong>"Benemérito de la Patria en Grado Heroico y Eminente"</strong>[cite: 227].</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Persecuciones Políticas Civiles:</strong> Retirado en 1818 con el rango de Coronel de Infantería, ejerció como Juez en Cocentaina, La Carolina y Baeza[cite: 231, 232, 238, 242]. En 1834 fue nombrado Corregidor interino de Cuenca por la Corona[cite: 254]. En agosto de 1836 fue depuesto por la Junta Superior Gubernativa de Cuenca bajo acusaciones de ser hostil a la constitución y poco celoso en las causas de conspiración carlista, lo que dio margen a la fuga de reos en la antigua cárcel de la Inquisición[cite: 262, 265, 266, 269, 270]. Tras minuciosas investigaciones de la Audiencia de Albacete, se confirmó que el impago del alcaide y la falta de luz dependían de otras autoridades, y que don Antonio se había ofrecido a combatir como soldado raso alistando a sus hijos menores en la milicia voluntaria, siendo <strong>completamente exonerado, rehabilitado y elogiado por su rectitud en 1837</strong>[cite: 279, 282, 286, 291, 294]. En 1838 se convirtió en el <strong>Primer Decano Fundador del Ilustre Colegio de Abogados de Albacete</strong>, firmándose el acta en su propia casa de Cartagena debido al traslado de la Audiencia por la guerra[cite: 325, 335]. Falleció en Valencia en 1869[cite: 348].</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Antonio Lafuente Reig (1826 - 1881) - El Círculo Académico de Madrid</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Hijo de Antonio y María Josefa Reig[cite: 191, 398]. Nacido en Granada en 1826, cursó sus estudios de Jurisprudencia entre la Universidad de Valencia y la Universidad Literaria de Madrid[cite: 191, 422]. Vivió bajo la tutela de su padre en la calle Jesús del Valle nº 18 y en la calle de la Luna nº 20 de Madrid[cite: 419, 443]. El 25 de febrero de 1848 obtuvo el grado de <strong>Bachiller en Jurisprudencia por decisión unánime</strong> del tribunal universitario[cite: 434, 435]. En 1853, el Rector Morante emitió un informe recomendando su admisión al grado de Licenciado a plazos, destacando que era hijo de un juez jubilado[cite: 449, 450, 453].</p>
+                    <p style="margin-top: 0.5rem;">Contrajo matrimonio en la Parroquia de San Esteban de Valencia el 21 de abril de 1854 con su prima hermana <strong>Lutgarda Pérez Reig</strong> (Sevilla, 1825-1886), requiriendo dispensas por segundo grado de consanguinidad[cite: 402, 403, 405]. Trabajó como empleado público en Valencia y falleció en febrero de 1881[cite: 397, 400]. De sus seis hijos, tres fallecieron en la infancia (Ludgarda y dos niños llamados Luis Gonzaga) [cite: 411, 412, 413], sobreviviendo Antonio (militar) [cite: 471], Godofredo (abogado) [cite: 476] y Leopoldo[cite: 410].</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Capitán Leopoldo Lafuente Pérez (1864 - 1934) - Torpedeamiento del Francolí</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Bisabuelo de la autora de la crónica[cite: 493, 503]. Nacido en Valencia el 23 de diciembre de 1864, ingresó a la Marina Mercante a los 20 años y a los 26 obtuvo el título oficial de Capitán[cite: 504, 529]. Navegó extensamente mandando transatlánticos (vapores Perez, Salo, Colón y el buque Pelayo), cubriendo la ruta de ultramar Buenos Aires - Barcelona[cite: 531, 532, 533, 535, 536].</p>
+                    <p style="margin-top: 0.5rem;"><strong>El Hundimiento de 1918:</strong> En junio de 1918 ingresó a la Compañía Trasmediterránea, asignándosele el mando del vapor <strong>Francolí</strong>[cite: 545, 546]. En octubre de 1918, durante la Primera Guerra Mundial, el <em>Francolí</em> fue torpedeado y hundido por un submarino alemán[cite: 547]. Gracias a su pericia, logró evacuar ordenadamente el barco, salvando la vida de toda la tripulación sin registrar bajas, siendo rescatados por un buque francés frente a Cartagena[cite: 547]. Prestó declaración por este suceso ante el Consejo de Ministros en Madrid[cite: 548]. Posteriormente, se le otorgó la <strong>Medalla al Mérito Naval con distintivo rojo de primera clase</strong> por las operaciones de transporte militar en el desembarco de Alhucemas (Guerra de Marruecos, 1924-1925)[cite: 550]. Casó con Elena Aznar Álvarez[cite: 507].</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Félix Lafuente Aznar (1900 - 1981) - El Refugio Modernista y la Depuración de 1939</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Abuelo de la autora[cite: 574]. Nacido en la calle San Bult nº 23 de Valencia el 4 de mayo de 1900, en ausencia de su padre que se hallaba navegando[cite: 575]. Se tituló como Piloto de la Marina Mercante en 1921 tras cursar estudios en la Escuela Especial de Náutica y realizar sus prácticas en el transatlántico <em>Montserrat</em> (llegando a Nueva York en 1919) y el buque <em>Ciudad de Zaragoza</em>[cite: 595, 599, 600, 603]. Ejerció como primer oficial en el vapor <em>Real Fernando</em> (conocido como el Betis)[cite: 605]. En 1923, queriendo evitar a su esposa los sufrimientos de la soledad que padeció su madre mientras su padre estaba en alta mar, abandonó de forma definitiva la navegación[cite: 555, 579]. Ingresó a trabajar en la firma de toldos marinos <em>Juan Giralt Miró</em>, donde realizó toda su carrera profesional hasta jubilarse como Gerente General[cite: 579].</p>
+                    <p style="margin-top: 0.5rem;">Casó en 1925 con Francisca Gutiérrez Pla [cite: 581, 623], residiendo en la finca modernista de la calle Cirilo Amorós 31 de Valencia[cite: 581]. Sufrió una racha trágica: perdió a su madre en 1926 [cite: 585], a su hermano Antonio de tuberculosis pulmonar a los 24 años en julio de 1934 [cite: 586], a su padre dos meses después en septiembre de 1934 [cite: 587], y su hermano José (Pepe) desapareció en el frente de Teruel durante la Guerra Civil Española sin dejar rastro[cite: 638]. Al concluir la guerra, en abril de 1939, Félix fue sometido a un interrogatorio jurado, donde demostró haber permanecido escondido en su casa de las persecuciones marxistas debido a sus ideas religiosas, aportando testimonios de oficiales de la Guardia Civil[cite: 590, 591, 592]. Su hijo varón, Leopoldo Lafuente Gutiérrez, es el padre de la autora[cite: 623].</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="alianzas" class="tab-content">
+            <h2>Estudio de Conectividad Antropológica: Las Casas Aliadas</h2>
+            <p style="margin-bottom: 2rem;">Hitos históricos, persecuciones y magistraturas de las familias unidas por lazo matrimonial a los Lafuente.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>1. Casa de REIG MARTÍ - El Linchamiento del Corregidor en el Motín de 1808</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>El lazo se sella con las nupcias de María Josefa Reig y Martí con el Coronel Antonio Lafuente Oquendo en 1819[cite: 187]. El padre de María Josefa fue el <strong>Doctor José Antonio Reig y Ferré</strong>, noble abogado natural de Cocentaina, investido por Real Orden en 1805 como Corregidor de la ciudad de Villena[cite: 691, 692, 693]. Tenía la misión de ejecutar las órdenes de la Corona para forzar las expropiaciones de terrenos civiles destinadas a activar las obras de desecación de la gran laguna de Villena[cite: 701].</p>
+                    <div class="highlight-box">
+                        <strong>El motín del 31 de mayo de 1808:</strong> En el violento contexto de la invasión napoleónica, los enemigos locales del corregidor esparcieron el falso rumor por las calles de que Reig era un "afrancesado" al servicio de Bonaparte[cite: 702]. Una muchedumbre asaltó el palacio del corregimiento, capturó al magistrado y lo arrastró de forma brutal por las calles de Villena hasta causarle la muerte[cite: 693, 702]. Su viuda Antonia Martí Mayor huyó hacia Cocentaina[cite: 695].
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>2. Casa de PÉREZ MONTAGUDO - La Judicatura de la Real Audiencia de Zaragoza</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>La alianza procede del enlace de Lutgarda Pérez Reig con Antonio Lafuente Reig[cite: 402]. Lutgarda era hija del Coronel Francisco Pérez Montagudo y de Virtudes Reig y Martí[cite: 707]. En esta rama destaca su tío carnal, el <strong>Magistrado Miguel Pérez Montagudo</strong> (1791 - 1871)[cite: 716]:</p>
+                    <ul>
+                        <li>Sirvió en el ejército contra las tropas de Napoleón por espacio de cinco años y meses, hallándose en el sitio de Valencia, en que fue prisionero y conducido a Francia en cautiverio[cite: 722].</li>
+                        <li>A su regreso obtuvo su retiro militar con fuero criminal para graduarse como Abogado de la Real Audiencia de Zaragoza en 1819[cite: 722, 723].</li>
+                        <li>Ejerció durante 41 años en la magistratura nacional, siendo Juez de Peñaranda de Bracamonte (1844), Juez de Ocaña (1849) y Juez de Betanzos (La Coruña)[cite: 728, 729, 730]. Se jubiló con los honores de magistrado y ostentó la distinción de Caballero de la Real Orden Americana de Isabel la Católica[cite: 729, 730, 731]. La adjudicación notarial de su herencia en 1827 sirvió para reconstruir los lazos generacionales[cite: 732].</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>3. Casa de AZNAR Y ALAÑA - Los Héroes de los dos Sitios de Zaragoza</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Esta línea se incorpora con la boda de Elena Aznar Álvarez y el Capitán Leopoldo Lafuente Pérez en 1894[cite: 507]. Se trata de una de las estirpes de mayor tradición militar de combate en la historia de España[cite: 652]:</p>
+                    <ul>
+                        <li><strong>Félix Aznar Zalamea (1801 - 1841):</strong> Nacido en Vélez-Málaga, de calidad noble[cite: 738]. Siendo un distinguido militar en el Regimiento de Extremadura en 1808, protagonizó una fuga de Barcelona tras la entrega a los franceses y logró romper las líneas para encerrarse en Zaragoza[cite: 756, 759]. <strong>Combatió heroicamente en los dos Sitios de Zaragoza</strong>, defendiendo el Arrabal, la Iglesia del Pilar y las trincheras de Santa Engracia[cite: 759, 766]. Cayó herido en la acción de Zufar y fue capturado por segunda vez en la capitulación de Valencia (1812)[cite: 762]. Al intentar evadirse de Francia, fue aprendido por la Gendarmería y conducido con la cadena al cuello a la Ciudadela de Montpellier[cite: 763]. Se le concedió la <strong>Cruz de San Fernando de Primera Clase</strong>[cite: 774].</li>
+                        <li><strong>Coronel Félix Aznar Alaña (1826 - 1888):</strong> Hijo del anterior, nacido en Pinos del Rey (Granada)[cite: 797]. Cadete desde 1838, participó en el asalto y toma de Barcelona en 1843[cite: 799, 800]. Recibió dos Cruces de San Fernando de primera clase por su valentía al sofocar el motín de Alcoy (1855) y por los hechos de armas de Madrid de julio de 1856[cite: 802, 803]. El Rey Alfonso XII lo promovió al rango de Coronel de Infantería por su destacada bravura en los combates contra las facciones carlistas en <strong>Olot y Tolosa (alturas de Chorriloquieta)</strong>[cite: 825, 828]. Sirvió en 22 cuerpos por toda España durante 48 años y se retiró como Fiscal de Causas Militares de Valencia[cite: 826, 832, 833].</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>4. Casa de AGUADO OQUENDO - De las Inundaciones de México a la Presidencia del Tribunal Supremo</span>
+                    <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Esta rama nace del matrimonio eclesiástico celebrado en Granada el 14 de octubre de 1799 entre Joaquina Lafuente Oquendo y su primo hermano, el Administrador Manuel Aguado Oquendo[cite: 854, 855]. Su hija, Presentación Aguado Oquendo (natural de Guadix), enlazó con la familia andaluza de los de la Torre al casarse con José Aurioles de la Torre (cuyo hermano Miguel fue Oidor de la Audiencia de Caracas en Venezuela)[cite: 857].</p>
+                    <p style="margin-top: 0.5rem;">De esta línea desciende María de los Dolores Aurioles Aguado (nacida en Ronda, 1840), noble, quien casó con Miguel Ciudad de la Hoz, procreando al miembro más ilustre de esta línea judicial: el <strong>Doctor José Ciudad y Aurioles</strong> (1849 - 1924)[cite: 858]. Este jurista alcanzó la cúspide del poder judicial de la nación al ejercer como <strong>Presidente del Tribunal Supremo de España entre los años 1917 y 1924</strong>, siendo además Caballero de la Orden de Santiago y Senador por derecho propio del Reino[cite: 858, 859].</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Archivo Genealógico Digitalizado e Interactivo de la Casa de Lafuente.<br>Compilado en base a protocolos notariales de la Real Chancillería de Granada, Simancas, Archivo de la Marina Álvaro de Bazán y fondos parroquiales de Valencia e Huesca.</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function toggleAccordion(element) {
+            var content = element.nextElementSibling;
+            var symbol = element.querySelector('span:last-child');
+            
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                symbol.textContent = "+";
+                element.style.borderBottomColor = "transparent";
+            } else {
+                content.style.display = "block";
+                symbol.textContent = "-";
+                element.style.borderBottomColor = "var(--border)";
+            }
+        }
+    </script>
+</body>
+</html>
